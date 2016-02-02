@@ -27,15 +27,16 @@ namespace Teh2_DifNumDifFile
                 // number (integer) was given correctly, use it..
                 if (result)
                 {
+                    System.IO.StreamWriter outputFile = new System.IO.StreamWriter(@"d:\integerFile.txt");
+                    outputFile.WriteLine(line);
                     // Write enterd line to the integer file
                 }
                 else
                 {
+                    System.IO.StreamWriter outputFile = new System.IO.StreamWriter(@"d:\doubleFile.txt");
+                    outputFile.WriteLine(line);
                     // Write enterd line to the decimal file
                 }
-
-
-
             } while (line.Length != 0);
         }
     }
