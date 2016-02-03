@@ -10,34 +10,89 @@ namespace Teh2_DifNumDifFile
     {
         static void Main(string[] args)
         {
-            // create a list for integers
-            List<int> list = new List<int>();
-            // boolean variable, just check for looping
-            bool result;
-            string line;
-            // ask numbers
-            do
+            // Set a variable to the path
+            string mydocpath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            
+            System.IO.StreamWriter intFile = null;
+            System.IO.StreamWriter doubFile = null;
+
+            try
             {
-                // ask number from the user (read one line)
-                Console.Write("Give a number > ");
-                line = Console.ReadLine();
-                // try to read number from the given line
+                // Preparing files for keeping integers & doubles
+                intFile = new System.IO.StreamWriter(mydocpath + @"\integerFile.txt");
+                doubFile = new System.IO.StreamWriter(mydocpath + @"\integerFile.txt");
+
+                // Needed variables for checking & looping
+                bool result;
+                string textLine = null;
                 int number;
-                result = int.TryParse(line, out number);
-                // number (integer) was given correctly, use it..
-                if (result)
+
+                do
                 {
-                    System.IO.StreamWriter outputFile = new System.IO.StreamWriter(@"d:\integerFile.txt");
-                    outputFile.WriteLine(line);
-                    // Write enterd line to the integer file
-                }
-                else
+                    // ask for numbers
+                    Console.Write("Give a number > ");
+                    textLine = Console.ReadLine();
+
+                    result = int.TryParse(textLine, out number);
+
+                    if (result)
+                    {
+                        intFile.WriteLine(textLine);
+                        // Write enterd line to the integer file
+                    }
+                    else
+                    {
+
+                        doubFile.WriteLine(textLine);
+                        // Write enterd line to the decimal file
+                    }
+                } while (textLine.Length != 0);
+                Console.Write("It was not a number try again");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                if (intFile != null)
                 {
-                    System.IO.StreamWriter outputFile = new System.IO.StreamWriter(@"d:\doubleFile.txt");
-                    outputFile.WriteLine(line);
-                    // Write enterd line to the decimal file
+                    // Closing the file
+                    intFile.Close();
                 }
-            } while (line.Length != 0);
+                if (doubFile != null)
+                {
+                    // Closing the file
+                    doubFile.Close();
+                }
+                try
+                {
+                    // Open the file
+                    string text = System.IO.File.ReadAllText(mydocpath + @"\integerFile.txt");
+                    Console.WriteLine("Entered integers:\n" + text);
+
+                    // display containing
+                    Console.WriteLine(text);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                try
+                {
+                    // Open the file
+                    string text = System.IO.File.ReadAllText(mydocpath + @"\integerFile.txt");
+                    Console.WriteLine("Entered doubles:\n" + text);
+
+                    // display containing
+                    Console.WriteLine(text);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
+            }
         }
     }
 }
